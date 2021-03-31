@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
 import EyeTexD from './assets/eye-diffuse.jpg';
@@ -11,6 +12,7 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 let camera: THREE.Camera;
+let controls: OrbitControls;
 
 function resetCamera() {
   camera = new THREE.PerspectiveCamera(
@@ -25,6 +27,13 @@ function resetCamera() {
   camera.lookAt(scene.position);
 
   renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function resetControls() {
+  if (camera && !controls) {
+    controls = new OrbitControls(camera, renderer.domElement);
+  }
+  controls.update();
 }
 
 const axis = new THREE.AxesHelper(10);
@@ -78,10 +87,14 @@ function render(): void {
 function animate(): void {
   requestAnimationFrame(animate);
   render();
+  if (controls) controls.update();
 }
 
 window.onresize = () => {
   resetCamera();
+  resetControls();
 };
 resetCamera();
+resetControls();
+
 animate();
