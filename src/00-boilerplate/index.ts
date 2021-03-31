@@ -1,4 +1,13 @@
-import * as THREE from 'three';
+import {
+  AxesHelper,
+  DirectionalLight,
+  Group,
+  Mesh,
+  PerspectiveCamera,
+  Scene,
+  TextureLoader,
+  WebGLRenderer,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
 
@@ -6,16 +15,16 @@ import EyeTexD from './assets/eye-diffuse.jpg';
 import EyeTexN from './assets/eye-normal.jpg';
 import EyeMesh from './assets/eye.fbx';
 
-const renderer = new THREE.WebGLRenderer();
+const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const scene = new THREE.Scene();
+const scene = new Scene();
 let camera: THREE.Camera;
 let controls: OrbitControls;
 
 function resetCamera() {
-  camera = new THREE.PerspectiveCamera(
+  camera = new PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
@@ -36,28 +45,28 @@ function resetControls() {
   controls.update();
 }
 
-const axis = new THREE.AxesHelper(10);
+const axis = new AxesHelper(10);
 scene.add(axis);
 
-const light = new THREE.DirectionalLight(0xffffff, 1.0);
+const light = new DirectionalLight(0xffffff, 1.0);
 light.position.set(100, 100, 100);
 scene.add(light);
 
-const light2 = new THREE.DirectionalLight(0xffffff, 1.0);
+const light2 = new DirectionalLight(0xffffff, 1.0);
 light2.position.set(-100, 100, -100);
 scene.add(light2);
 
 // add a model + textures
-let eyeObject: THREE.Group;
-const textureD = new THREE.TextureLoader().load(EyeTexD);
-const textureN = new THREE.TextureLoader().load(EyeTexN);
+let eyeObject: Group;
+const textureD = new TextureLoader().load(EyeTexD);
+const textureN = new TextureLoader().load(EyeTexN);
 const fbxLoader: FBXLoader = new FBXLoader();
 fbxLoader.load(
   EyeMesh,
   (object) => {
     eyeObject = object;
     eyeObject.traverse((o) => {
-      if (o instanceof THREE.Mesh) {
+      if (o instanceof Mesh) {
         const mat: THREE.Texture = o.material;
         // @ts-ignore
         mat.map = textureD;

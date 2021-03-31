@@ -1,6 +1,6 @@
-const { resolve } = require('path');
-
+/* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { resolve } = require('path');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 
 module.exports = {
@@ -43,6 +43,7 @@ module.exports = {
     }),
   ],
   optimization: {
+    usedExports: true,
     splitChunks: {
       chunks: 'all',
     },
