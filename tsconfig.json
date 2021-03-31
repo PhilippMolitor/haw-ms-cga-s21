@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["DOM", "ESNext", "ESNext.AsyncIterable"],
+    "preserveConstEnums": true,
+    "strict": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "outDir": "./build/",
+    "typeRoots": ["node_modules/@types", "typings"],
+    "sourceMap": true
+  },
+  "include": ["src", "web", "typings/**/*.d.ts", ".eslintrc.js"],
+  "exclude": ["node_modules", "build"]
+}
