@@ -1,10 +1,12 @@
 import {
   AxesHelper,
+  Camera,
   DirectionalLight,
   Group,
   Mesh,
   PerspectiveCamera,
   Scene,
+  Texture,
   TextureLoader,
   WebGLRenderer,
 } from 'three';
@@ -20,7 +22,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const scene = new Scene();
-let camera: THREE.Camera;
+let camera: Camera;
 let controls: OrbitControls;
 
 function resetCamera() {
@@ -67,7 +69,7 @@ fbxLoader.load(
     eyeObject = object;
     eyeObject.traverse((o) => {
       if (o instanceof Mesh) {
-        const mat: THREE.Texture = o.material;
+        const mat: Texture = o.material;
         // @ts-ignore
         mat.map = textureD;
         // @ts-ignore
