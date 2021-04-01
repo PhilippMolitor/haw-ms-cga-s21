@@ -6,7 +6,8 @@ Hier werden die Inhalte für den Kurs "CGA" des 4. Semesters an der HAW Hamburg 
 
 - TypeScript
 - THREE.js
-- ESLint + Prettier für die Code-Qualität
+- ESLint + Prettier (Code-Qualität bzw. Formatierung)
+- Webpack (transpiling & bundling für den Browser)
 
 ## Scripts
 
