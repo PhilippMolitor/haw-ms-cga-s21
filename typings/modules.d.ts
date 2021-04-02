@@ -19,3 +19,4 @@ declare module '*.obj';
 declare module '*.stl';
 declare module '*.mtl';
 declare module '*.glb';
+declare module '*.gltf';

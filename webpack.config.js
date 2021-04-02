@@ -29,7 +29,7 @@ module.exports = {
         use: ['file-loader?name=assets/audio/[name].[contenthash].[ext]'],
       },
       {
-        test: /\.(fbx|obj|stl|mtl|glb)$/i,
+        test: /\.(fbx|obj|stl|mtl|glb|gltf)$/i,
         use: ['file-loader?name=assets/models/[name].[contenthash].[ext]'],
       },
     ],
