@@ -9,12 +9,18 @@
     "watch:00": "webpack serve --inline --open --entry ./src/00-boilerplate/index.ts"
   },
   "dependencies": {
-    "three": "^0.127.0"
+    "@tweenjs/tween.js": "^18.6.4",
+    "cannon-es": "^0.17.0",
+    "cannon-es-debugger": "^0.1.2",
+    "dat.gui": "^0.7.7",
+    "three": "^0.127.0",
+    "three-csg-ts": "^2.2.2"
   },
   "devDependencies": {
+    "@types/dat.gui": "^0.7.6",
     "@types/three": "^0.127.0",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
-    "eslint": "^7.23.0",
+    "eslint": "^7.24.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
@@ -27,7 +33,7 @@
     "progress-bar-webpack-plugin": "^2.1.0",
     "ts-loader": "^8.1.0",
     "typescript": "^4.2.4",
-    "webpack": "^5.31.0",
+    "webpack": "^5.31.2",
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^3.11.2"
   }
