@@ -12,10 +12,17 @@ import {
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { FBXLoader } from 'three/examples/jsm/loaders/FBXLoader';
+import Tweakpane from 'tweakpane';
 
 import EyeTexD from './assets/eye-diffuse.jpg';
 import EyeTexN from './assets/eye-normal.jpg';
 import EyeMesh from './assets/eye.fbx';
+
+const ctrl = new Tweakpane();
+let eyeOffset = [0, 0, 0];
+ctrl.addInput({ offset: { x: 0, y: 0, z: 0 } }, 'offset').on('change', (e) => {
+  eyeOffset = [e.value.x, e.value.y, e.value.z];
+});
 
 const renderer = new WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -89,7 +96,10 @@ fbxLoader.load(
 function render(): void {
   const timer = 0.002 * Date.now();
   if (eyeObject) {
-    eyeObject.position.y = 0.5 + 0.5 * Math.sin(timer);
+    const [x, y, z] = eyeOffset;
+    eyeObject.position.x = x;
+    eyeObject.position.y = y + 0.5 + 0.5 * Math.sin(timer);
+    eyeObject.position.z = z;
     eyeObject.rotation.x += 0.01;
   }
   renderer.render(scene, camera);
