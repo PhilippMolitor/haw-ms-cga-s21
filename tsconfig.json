@@ -4,6 +4,7 @@
     "module": "CommonJS",
     "moduleResolution": "Node",
     "lib": ["DOM", "ESNext", "ESNext.AsyncIterable"],
+    "esModuleInterop": true,
     "preserveConstEnums": true,
     "strict": true,
     "suppressImplicitAnyIndexErrors": true,
