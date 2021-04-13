@@ -32,7 +32,7 @@ const scene = new Scene();
 let camera: Camera;
 let controls: OrbitControls;
 
-function resetCamera() {
+function resetCamera(): void {
   camera = new PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -47,7 +47,7 @@ function resetCamera() {
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function resetControls() {
+function resetControls(): void {
   if (camera && !controls) {
     controls = new OrbitControls(camera, renderer.domElement);
   }
@@ -111,7 +111,7 @@ function animate(): void {
   if (controls) controls.update();
 }
 
-window.onresize = () => {
+window.onresize = (): void => {
   resetCamera();
   resetControls();
 };
