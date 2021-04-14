@@ -88,9 +88,9 @@ function main(): void {
       sphere.position.set(e.value.x, sphere.position.y, e.value.y)
     );
     tp.addInput({ 'Point Light': pointLight.position }, 'Point Light', {
-      x: { step: 0.5, min: -16, max: 16 },
-      y: { step: 0.5, min: -16, max: 16 },
-      z: { step: 0.5, min: -16, max: 16 },
+      x: { step: 1, min: -16, max: 16 },
+      y: { step: 1, min: -16, max: 16 },
+      z: { step: 1, min: -16, max: 16 },
     }).on('change', (e) =>
       pointLight.position.set(e.value.x, e.value.y, e.value.z)
     );
