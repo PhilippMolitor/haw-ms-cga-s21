@@ -19,3 +19,4 @@ Beispiel: `yarn watch:00` startet den Development Server für die Boilerplate-An
 ## Inhalte
 
 - `00-boilerplate`: Boilerplate / Demo-App, ohne Zusammenhang zum eigentlichen Kurs
+- `01-basics`: THREE.js basics, Inhalte der Vorlesung vom 2021-04-14
