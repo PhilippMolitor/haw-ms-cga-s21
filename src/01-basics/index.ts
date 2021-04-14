@@ -11,7 +11,6 @@ import {
   Scene,
   SphereGeometry,
   SpotLight,
-  SpotLightShadow,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
