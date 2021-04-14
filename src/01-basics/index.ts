@@ -10,6 +10,8 @@ import {
   PointLight,
   Scene,
   SphereGeometry,
+  SpotLight,
+  SpotLightShadow,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -65,10 +67,16 @@ function main(): void {
   scene.add(ambientLight);
 
   // point light
-  const pointLight = new PointLight(0xffffff, 1);
+  const pointLight = new PointLight(0xffffff, 0);
   pointLight.position.set(16, 16, 16);
-  pointLight.lookAt(0, 0, 0);
   scene.add(pointLight);
+
+  // spot light
+  const spotLight = new SpotLight(0xffffff, 1);
+  spotLight.position.set(16, 16, 16);
+  spotLight.target = cube;
+  spotLight.angle = MathUtils.degToRad(60);
+  scene.add(spotLight);
 
   // startup sequence
   function init(): void {
@@ -77,6 +85,7 @@ function main(): void {
 
     // add tweakpane debugging UI
     const tp = new Tweakpane();
+    // sphere
     tp.addInput(
       { 'Sphere XZ Plane': { x: sphere.position.x, y: sphere.position.z } },
       'Sphere XZ Plane',
@@ -87,13 +96,36 @@ function main(): void {
     ).on('change', (e) =>
       sphere.position.set(e.value.x, sphere.position.y, e.value.y)
     );
-    tp.addInput({ 'Point Light': pointLight.position }, 'Point Light', {
+    // pointlight
+    tp.addInput({ PointLight: pointLight.position }, 'PointLight', {
       x: { step: 1, min: -16, max: 16 },
       y: { step: 1, min: -16, max: 16 },
       z: { step: 1, min: -16, max: 16 },
     }).on('change', (e) =>
       pointLight.position.set(e.value.x, e.value.y, e.value.z)
     );
+    tp.addInput(
+      { 'PointLight Intensity': pointLight.intensity },
+      'PointLight Intensity',
+      { min: 0, max: 2 }
+    ).on('change', (e) => {
+      pointLight.intensity = e.value;
+    });
+    // spotlight
+    tp.addInput({ SpotLight: spotLight.position }, 'SpotLight', {
+      x: { step: 1, min: -16, max: 16 },
+      y: { step: 1, min: -16, max: 16 },
+      z: { step: 1, min: -16, max: 16 },
+    }).on('change', (e) =>
+      spotLight.position.set(e.value.x, e.value.y, e.value.z)
+    );
+    tp.addInput(
+      { 'SpotLight Intensity': spotLight.intensity },
+      'SpotLight Intensity',
+      { min: 0, max: 2 }
+    ).on('change', (e) => {
+      spotLight.intensity = e.value;
+    });
   }
 
   // per-frame render call
