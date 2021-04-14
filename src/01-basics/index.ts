@@ -4,7 +4,7 @@ import {
   DirectionalLight,
   MathUtils,
   Mesh,
-  MeshBasicMaterial,
+  MeshLambertMaterial,
   PerspectiveCamera,
   PlaneGeometry,
   Scene,
@@ -39,21 +39,21 @@ function main(): void {
   // objects
   const cube = new Mesh(
     new BoxGeometry(5, 5, 5),
-    new MeshBasicMaterial({ color: 0xf9008a, wireframe: true })
+    new MeshLambertMaterial({ color: 0xf9008a })
   );
   cube.position.set(-5, 3, 5);
   scene.add(cube);
 
   const sphere = new Mesh(
     new SphereGeometry(5, 10, 10),
-    new MeshBasicMaterial({ color: 0x008af9, wireframe: true })
+    new MeshLambertMaterial({ color: 0x008af9 })
   );
   sphere.position.set(10, 5, -5);
   scene.add(sphere);
 
   const plane = new Mesh(
     new PlaneGeometry(40, 40),
-    new MeshBasicMaterial({ color: 0xaaaaaa, wireframe: true })
+    new MeshLambertMaterial({ color: 0xaaaaaa })
   );
   plane.rotation.set(MathUtils.degToRad(-90), 0, 0);
   plane.position.set(0, 0, 0);
@@ -61,7 +61,7 @@ function main(): void {
 
   // light
   const light = new DirectionalLight(0xffffff, 1);
-  light.position.set(4, 4, 4);
+  light.position.set(20, 20, 20);
   light.lookAt(0, 0, 0);
   scene.add(light);
 
