@@ -12,6 +12,7 @@ import {
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import Tweakpane from 'tweakpane';
 
 // initialize script globals
 const renderer = new WebGLRenderer({ antialias: true });
@@ -68,6 +69,19 @@ function main(): void {
   function init(): void {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    // add tweakpane debugging UI
+    const tp = new Tweakpane();
+    tp.addInput(
+      { 'Sphere XZ Plane': { x: sphere.position.x, y: sphere.position.z } },
+      'Sphere XZ Plane',
+      {
+        x: { step: 0.01, min: -16, max: 16 },
+        y: { step: 0.01, min: -16, max: 16 },
+      }
+    ).on('change', (e) =>
+      sphere.position.set(e.value.x, sphere.position.y, e.value.y)
+    );
   }
 
   // per-frame render call
