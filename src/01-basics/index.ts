@@ -2,6 +2,7 @@ import {
   AmbientLight,
   AxesHelper,
   BoxGeometry,
+  CameraHelper,
   MathUtils,
   Mesh,
   MeshLambertMaterial,
@@ -30,6 +31,7 @@ const orbitControls = new OrbitControls(camera, renderer.domElement);
 function main(): void {
   // renderer
   renderer.setClearColor(0xffffff);
+  renderer.shadowMap.enabled = true;
 
   // camera
   camera.position.set(10, 10, 10);
@@ -44,6 +46,8 @@ function main(): void {
     new MeshLambertMaterial({ color: 0xf9008a })
   );
   cube.position.set(-5, 3, 5);
+  cube.castShadow = true;
+  cube.receiveShadow = true;
   scene.add(cube);
 
   const sphere = new Mesh(
@@ -51,6 +55,8 @@ function main(): void {
     new MeshLambertMaterial({ color: 0x008af9 })
   );
   sphere.position.set(10, 5, -5);
+  sphere.castShadow = true;
+  sphere.receiveShadow = true;
   scene.add(sphere);
 
   const plane = new Mesh(
@@ -59,6 +65,8 @@ function main(): void {
   );
   plane.rotation.set(MathUtils.degToRad(-90), 0, 0);
   plane.position.set(0, 0, 0);
+  plane.castShadow = true;
+  plane.receiveShadow = true;
   scene.add(plane);
 
   // ambient light
@@ -68,19 +76,26 @@ function main(): void {
   // point light
   const pointLight = new PointLight(0xffffff, 0);
   pointLight.position.set(16, 16, 16);
+  pointLight.castShadow = true;
   scene.add(pointLight);
 
   // spot light
   const spotLight = new SpotLight(0xffffff, 1);
   spotLight.position.set(16, 16, 16);
+  spotLight.penumbra = 1;
   spotLight.target = cube;
   spotLight.angle = MathUtils.degToRad(60);
+  spotLight.castShadow = true;
+  spotLight.shadow.mapSize.set(1024, 1024);
   scene.add(spotLight);
 
   // startup sequence
   function init(): void {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    // debug frustrum view for the spotlight
+    scene.add(new CameraHelper(spotLight.shadow.camera));
 
     // add tweakpane debugging UI
     const tp = new Tweakpane();
