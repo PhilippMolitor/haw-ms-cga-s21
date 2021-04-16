@@ -148,7 +148,7 @@ function main(): void {
     renderer.render(scene, camera);
 
     stats.frames += 1;
-    if (clock.getElapsedTime() > 1.0) {
+    if (clock.getElapsedTime() >= 1.0) {
       stats.fps = stats.frames;
       stats.frames = 0;
 
