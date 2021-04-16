@@ -139,7 +139,7 @@ function main(): void {
       spotLight.intensity = e.value;
     });
     // fps monitor
-    tp.addMonitor(stats, 'fps', { view: 'graph' });
+    tp.addMonitor(stats, 'fps', { view: 'graph', interval: 1000 });
   }
 
   // per-frame render call
