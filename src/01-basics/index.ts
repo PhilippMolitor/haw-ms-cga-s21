@@ -3,6 +3,7 @@ import {
   AxesHelper,
   BoxGeometry,
   CameraHelper,
+  Clock,
   MathUtils,
   Mesh,
   MeshLambertMaterial,
@@ -17,25 +18,22 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Tweakpane from 'tweakpane';
 
+const stats = {
+  frames: 0,
+  fps: 0,
+};
+
 // initialize script globals
+const clock = new Clock(true);
 const renderer = new WebGLRenderer({ antialias: true });
 const scene = new Scene();
-const camera = new PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.01,
-  1000
-);
-const orbitControls = new OrbitControls(camera, renderer.domElement);
+let camera: PerspectiveCamera;
+let orbitControls: OrbitControls;
 
 function main(): void {
   // renderer
   renderer.setClearColor(0xffffff);
   renderer.shadowMap.enabled = true;
-
-  // camera
-  camera.position.set(10, 10, 10);
-  camera.lookAt(scene.position);
 
   // helpers
   scene.add(new AxesHelper(10));
@@ -140,17 +138,46 @@ function main(): void {
     ).on('change', (e) => {
       spotLight.intensity = e.value;
     });
+    // fps monitor
+    tp.addMonitor(stats, 'fps', { view: 'graph' });
   }
 
   // per-frame render call
   function update(): void {
     orbitControls.update();
     renderer.render(scene, camera);
+
+    stats.frames += 1;
+    if (clock.getElapsedTime() > 1.0) {
+      stats.fps = stats.frames;
+      stats.frames = 0;
+
+      clock.start();
+    }
+  }
+
+  // reset camera on resize
+  function resetRenderer(): void {
+    const width = renderer.domElement.offsetWidth;
+    const height = renderer.domElement.offsetHeight;
+    const fov = 75;
+
+    camera = new PerspectiveCamera(fov, width / height, 0.01, 1000);
+    camera.position.set(10, 10, 10);
+    camera.lookAt(scene.position);
+    orbitControls = new OrbitControls(camera, renderer.domElement);
+
+    console.log(`resized camera: ${width}x${height} pixels`);
   }
 
   // run the application
   init();
+  resetRenderer();
+  clock.start();
   renderer.setAnimationLoop(() => update());
+
+  // resize handling
+  window.onresize = (): void => resetRenderer();
 }
 
 main();
