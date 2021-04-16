@@ -143,20 +143,14 @@ function main(): void {
   }
 
   // per-frame render call
-  function render(): void {
+  function update(): void {
     orbitControls.update();
     renderer.render(scene, camera);
   }
 
-  // animation call via the Browser API
-  function animate(): void {
-    requestAnimationFrame(animate);
-    render();
-  }
-
   // run the application
   init();
-  animate();
+  renderer.setAnimationLoop(() => update());
 }
 
 main();
