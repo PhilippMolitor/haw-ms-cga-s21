@@ -1,12 +1,15 @@
 import {
   AxesHelper,
+  BoxGeometry,
   Clock,
+  Group,
   MathUtils,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
   PlaneGeometry,
   Scene,
+  SphereGeometry,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
@@ -48,6 +51,24 @@ function main(): void {
   plane.position.set(0, 0, 0);
   scene.add(plane);
 
+  // cube and sphere (grouped)
+  const cubeSphereGroup = new Group();
+
+  const cube = new Mesh(
+    new BoxGeometry(5, 5, 5),
+    new MeshBasicMaterial({ color: 0xf9008a })
+  );
+  cube.position.set(-5, 3, 5);
+
+  const sphere = new Mesh(
+    new SphereGeometry(5, 10, 10),
+    new MeshBasicMaterial({ color: 0x008af9 })
+  );
+  sphere.position.set(10, 5, -5);
+
+  cubeSphereGroup.add(cube, sphere);
+  scene.add(cubeSphereGroup);
+
   // startup sequence
   function init(): void {
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -55,6 +76,20 @@ function main(): void {
 
     // add tweakpane debugging UI
     const tp = new Tweakpane();
+    // cube + sphere group position
+    tp.addInput(
+      {
+        'Cube + Sphere': cubeSphereGroup.position,
+      },
+      'Cube + Sphere',
+      {
+        x: { step: 1, min: -16, max: 16 },
+        y: { step: 1, min: -16, max: 16 },
+        z: { step: 1, min: -16, max: 16 },
+      }
+    ).on('change', (e) =>
+      cubeSphereGroup.position.set(e.value.x, e.value.y, e.value.z)
+    );
     // fps monitor
     tp.addMonitor(stats, 'fps', { view: 'graph', interval: 1000 });
   }
