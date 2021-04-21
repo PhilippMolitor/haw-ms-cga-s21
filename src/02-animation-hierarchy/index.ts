@@ -17,6 +17,8 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Tweakpane from 'tweakpane';
 
+import { Television } from './models/television';
+
 const stats = {
   frames: 0,
   fps: 0,
@@ -40,7 +42,7 @@ function main(): void {
   renderer.shadowMap.enabled = true;
 
   // camera
-  camera.position.set(10, 10, 10);
+  camera.position.set(60, 60, 60);
   camera.lookAt(scene.position);
 
   // helpers
@@ -52,13 +54,13 @@ function main(): void {
 
   // point light
   const pointLight = new PointLight(0xffffff, 1);
-  pointLight.position.set(16, 16, 16);
+  pointLight.position.set(100, 100, 100);
   pointLight.castShadow = true;
-  pointLight.shadow.mapSize.set(2048, 2048);
+  pointLight.shadow.mapSize.set(4096, 4096);
   scene.add(pointLight);
 
   const plane = new Mesh(
-    new PlaneGeometry(40, 40),
+    new PlaneGeometry(200, 200),
     new MeshLambertMaterial({ color: 0xaaaaaa })
   );
   plane.rotation.set(MathUtils.degToRad(-90), 0, 0);
@@ -66,25 +68,10 @@ function main(): void {
   plane.receiveShadow = true;
   scene.add(plane);
 
-  // cube and sphere (grouped)
-  const cubeSphereGroup = new Group();
-
-  const cube = new Mesh(
-    new BoxGeometry(5, 5, 5),
-    new MeshLambertMaterial({ color: 0xf9008a })
-  );
-  cube.castShadow = true;
-  cube.position.set(-5, 3, 5);
-
-  const sphere = new Mesh(
-    new SphereGeometry(5, 10, 10),
-    new MeshLambertMaterial({ color: 0x008af9 })
-  );
-  sphere.castShadow = true;
-  sphere.position.set(10, 5, -5);
-
-  cubeSphereGroup.add(cube, sphere);
-  scene.add(cubeSphereGroup);
+  // television buffer geometry
+  const television = new Television();
+  television.position.set(0, 16.8, 0);
+  scene.add(television);
 
   // startup sequence
   function init(): void {
@@ -93,19 +80,18 @@ function main(): void {
 
     // add tweakpane debugging UI
     const tp = new Tweakpane();
-    // cube + sphere group position
     tp.addInput(
       {
-        'Cube + Sphere': cubeSphereGroup.position,
+        Television: television.position,
       },
-      'Cube + Sphere',
+      'Television',
       {
         x: { step: 1, min: -16, max: 16 },
         y: { step: 1, min: -16, max: 16 },
         z: { step: 1, min: -16, max: 16 },
       }
     ).on('change', (e) =>
-      cubeSphereGroup.position.set(e.value.x, e.value.y, e.value.z)
+      television.position.set(e.value.x, e.value.y, e.value.z)
     );
     // fps monitor
     tp.addMonitor(stats, 'fps', { view: 'graph', interval: 1000 });
