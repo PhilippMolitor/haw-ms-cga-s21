@@ -8,7 +8,9 @@
     "build:00": "webpack --mode production --no-devtool --entry ./src/00-boilerplate/index.ts",
     "watch:00": "webpack serve --inline --open --entry ./src/00-boilerplate/index.ts",
     "build:01": "webpack --mode production --no-devtool --entry ./src/01-basics/index.ts",
-    "watch:01": "webpack serve --inline --open --entry ./src/01-basics/index.ts"
+    "watch:01": "webpack serve --inline --open --entry ./src/01-basics/index.ts",
+    "build:02": "webpack --mode production --no-devtool --entry ./src/02-animation-hierarchy/index.ts",
+    "watch:02": "webpack serve --inline --open --entry ./src/02-animation-hierarchy/index.ts"
   },
   "dependencies": {
     "@tweenjs/tween.js": "^18.6.4",
