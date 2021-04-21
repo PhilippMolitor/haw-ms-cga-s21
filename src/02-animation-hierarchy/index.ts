@@ -1,13 +1,15 @@
 import {
+  AmbientLight,
   AxesHelper,
   BoxGeometry,
   Clock,
   Group,
   MathUtils,
   Mesh,
-  MeshBasicMaterial,
+  MeshLambertMaterial,
   PerspectiveCamera,
   PlaneGeometry,
+  PointLight,
   Scene,
   SphereGeometry,
   WebGLRenderer,
@@ -35,6 +37,7 @@ const orbitControls = new OrbitControls(camera, renderer.domElement);
 function main(): void {
   // renderer
   renderer.setClearColor(0xffffff);
+  renderer.shadowMap.enabled = true;
 
   // camera
   camera.position.set(10, 10, 10);
@@ -43,12 +46,24 @@ function main(): void {
   // helpers
   scene.add(new AxesHelper(10));
 
+  // ambient light
+  const ambientLight = new AmbientLight(0xffffff, 1 / 3);
+  scene.add(ambientLight);
+
+  // point light
+  const pointLight = new PointLight(0xffffff, 1);
+  pointLight.position.set(16, 16, 16);
+  pointLight.castShadow = true;
+  pointLight.shadow.mapSize.set(2048, 2048);
+  scene.add(pointLight);
+
   const plane = new Mesh(
     new PlaneGeometry(40, 40),
-    new MeshBasicMaterial({ color: 0xaaaaaa })
+    new MeshLambertMaterial({ color: 0xaaaaaa })
   );
   plane.rotation.set(MathUtils.degToRad(-90), 0, 0);
   plane.position.set(0, 0, 0);
+  plane.receiveShadow = true;
   scene.add(plane);
 
   // cube and sphere (grouped)
@@ -56,14 +71,16 @@ function main(): void {
 
   const cube = new Mesh(
     new BoxGeometry(5, 5, 5),
-    new MeshBasicMaterial({ color: 0xf9008a })
+    new MeshLambertMaterial({ color: 0xf9008a })
   );
+  cube.castShadow = true;
   cube.position.set(-5, 3, 5);
 
   const sphere = new Mesh(
     new SphereGeometry(5, 10, 10),
-    new MeshBasicMaterial({ color: 0x008af9 })
+    new MeshLambertMaterial({ color: 0x008af9 })
   );
+  sphere.castShadow = true;
   sphere.position.set(10, 5, -5);
 
   cubeSphereGroup.add(cube, sphere);
