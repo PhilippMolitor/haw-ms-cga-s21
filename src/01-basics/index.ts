@@ -27,13 +27,22 @@ const stats = {
 const clock = new Clock(true);
 const renderer = new WebGLRenderer({ antialias: true });
 const scene = new Scene();
-let camera: PerspectiveCamera;
-let orbitControls: OrbitControls;
+const camera = new PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.01,
+  1000
+);
+const orbitControls = new OrbitControls(camera, renderer.domElement);
 
 function main(): void {
   // renderer
   renderer.setClearColor(0xffffff);
   renderer.shadowMap.enabled = true;
+
+  // camera
+  camera.position.set(10, 10, 10);
+  camera.lookAt(scene.position);
 
   // helpers
   scene.add(new AxesHelper(10));
@@ -160,19 +169,16 @@ function main(): void {
   function resetRenderer(): void {
     const width = renderer.domElement.offsetWidth;
     const height = renderer.domElement.offsetHeight;
-    const fov = 75;
 
-    camera = new PerspectiveCamera(fov, width / height, 0.01, 1000);
-    camera.position.set(10, 10, 10);
-    camera.lookAt(scene.position);
-    orbitControls = new OrbitControls(camera, renderer.domElement);
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
 
     console.log(`resized camera: ${width}x${height} pixels`);
   }
 
   // run the application
   init();
-  resetRenderer();
   clock.start();
   renderer.setAnimationLoop(() => update());
 
